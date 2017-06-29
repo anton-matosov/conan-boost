@@ -132,7 +132,8 @@ class BoostConan(ConanFile):
             self.output.warn("Header only package, skipping build")
             return
 
-        command = "bootstrap" if self.settings.os == "Windows" else "./bootstrap.sh --with-toolset=%s"% self.settings.compiler
+        toolset = "darwin" if self.settings.compiler else self.settings.compiler
+        command = "bootstrap" if self.settings.os == "Windows" else "./bootstrap.sh --with-toolset=%s"% toolset
         flags = []
         if self.settings.os == "Windows" and self.settings.compiler == "gcc":
             command += " mingw"
