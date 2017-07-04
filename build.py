@@ -9,11 +9,11 @@ if __name__ == "__main__":
     builder.add(options={"Boost:header_only": True})
     if platform.system() == "Linux":
         filtered_builds = []
-        for settings, options in builder.builds:
-            filtered_builds.append([settings, options])
+        for settings, options, env_vars, build_requires in builder.builds:
+            filtered_builds.append([settings, options, env_vars, build_requires])
             new_options = copy.copy(options)
             new_options["Boost:fPIC"] = True
-            filtered_builds.append([settings, new_options])
+            filtered_builds.append([settings, new_options, env_vars, build_requires])
         builder.builds = filtered_builds
     builder.run()
 
