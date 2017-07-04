@@ -150,8 +150,7 @@ class BoostConan(ConanFile):
         if self.settings.compiler == "Visual Studio":
             flags.append("toolset=msvc-%s" % self._msvc_version())
         elif not self.settings.os == "Windows" and self.settings.compiler == "gcc":
-            # For GCC we only need the major version otherwhise Boost doesn't find the compiler
-            flags.append("toolset=%s-%s"% (self.settings.compiler, self._gcc_short_version(self.settings.compiler.version)))
+            flags.append("toolset=%s-%s"% (self.settings.compiler, self.settings.compiler.version))
         elif str(self.settings.compiler) in ["clang", "gcc"]:
             flags.append("toolset=%s-%s"% (self.settings.compiler, self.settings.compiler.version))
 
