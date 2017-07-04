@@ -7,7 +7,7 @@ env:
   global:
     - CONAN_UPLOAD=1
     - CONAN_REFERENCE="Boost/1.64.0"
-    - CONAN_USERNAME="lasote"
+    - CONAN_USERNAME="anton-matosov"
     - CONAN_CHANNEL="testing"
     - CONAN_TOTAL_PAGES=8
     - CONAN_STABLE_BRANCH_PATTERN="release/*"
