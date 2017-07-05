@@ -131,14 +131,11 @@ class BoostConan(ConanFile):
         if self.options.header_only:
             self.output.warn("Header only package, skipping build")
             return
-
-        toolset = "darwin" if self.settings.compiler else self.settings.compiler
-        command = "bootstrap" if self.settings.os == "Windows" else "./bootstrap.sh --with-toolset=%s"% toolset
+        command = "bootstrap" if self.settings.os == "Windows" else "./bootstrap.sh"
         flags = []
         if self.settings.os == "Windows" and self.settings.compiler == "gcc":
             command += " mingw"
             flags.append("--layout=system")
-
         try:
             self.run("cd %s && %s" % (self.FOLDER_NAME, command))
         except:
@@ -148,12 +145,9 @@ class BoostConan(ConanFile):
             raise
 
         if self.settings.compiler == "Visual Studio":
-            flags.append("toolset=msvc-%s" % self._msvc_version())
-        elif self.settings.compiler == "gcc":
-            # For GCC we only need the major version otherwhise Boost doesn't find the compiler
-            flags.append("toolset=%s-%s"% (self.settings.compiler, self._gcc_short_version(self.settings.compiler.version)))
-        elif str(self.settings.compiler) in ["clang"]:
-            flags.append("toolset=%s-%s"% (self.settings.compiler, self.settings.compiler.version))
+            flags.append("toolset=msvc-%s.0" % self.settings.compiler.version)
+        elif str(self.settings.compiler) in ["clang", "gcc"]:
+            flags.append("toolset=%s"% self.settings.compiler)
 
         flags.append("link=%s" % ("static" if not self.options.shared else "shared"))
         if self.settings.compiler == "Visual Studio" and self.settings.compiler.runtime:
